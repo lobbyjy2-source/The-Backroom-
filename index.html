@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>THE BACKROOMS</title>
+<style>
+/* =========================================================================
+   GLOBAL RESET
+   ========================================================================= */
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+html,body{
+  margin:0; padding:0; width:100%; height:100%;
+  overflow:hidden; background:#0a0a06;
+  font-family:'Georgia','Times New Roman',serif;
+  touch-action:none; -webkit-user-select:none; user-select:none;
+}
+
+/* =========================================================================
+   ROTATE-DEVICE OVERLAY (force landscape play)
+   ========================================================================= */
+@media (orientation:portrait){
+  html, body {
+    width:100%; height:100%; overflow:hidden;
+  }
+}
+
+/* =========================================================================
+   GAME ROOT WRAPPER
+   ========================================================================= */
+#game-root{
+  position:fixed;
+  inset:0;
+}
+
+/* =========================================================================
+   TITLE / MENU SCREEN
+   ========================================================================= */
+#title-screen{
+  position:fixed; inset:0; z-index:500;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  background:#0a0a06;
+  overflow:hidden;
+}
+
+#menu-bg{
+  position:absolute; inset:0;
+  background:url('data:image/png;base64,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') no-repeat center center;
+  background-size:cover;
+  opacity:0.35;
+}
+
+#menu-content{
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center; padding:20px;
+}
+
+#menu-content h1{
+  font-size:2.8rem; color:#ffd700; margin:0 0 10px 0;
+  text-shadow:0 0 20px rgba(255,215,0,0.6);
+  letter-spacing:3px;
+}
+
+#menu-content p{
+  font-size:1.1rem; color:#c8b88a; margin:0 0 30px 0;
+  max-width:400px; line-height:1.5;
+}
+
+.menu-btn{
+  background:#d4af37; color:#0a0a06; border:none; padding:15px 40px;
+  font-size:1.2rem; font-weight:bold; font-family:inherit;
+  cursor:pointer; text-transform:uppercase; letter-spacing:2px;
+  box-shadow:0 0 15px rgba(212,175,55,0.4);
+  transition:all 0.2s ease;
+}
+.menu-btn:active{
+  transform:scale(0.95);
+  background:#f4d03f;
+}
+
+/* =========================================================================
+   CANVAS & HUD
+   ========================================================================= */
+#game-canvas{
+  display:block; width:100%; height:100%;
+}
+
+#hud{
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  pointer-events:none; z-index:100;
+  display:none;
+}
+
+.hud-item{
+  position:absolute; color:#ffd700; font-weight:bold; text-shadow:0 2px 4px rgba(0,0,0,0.8);
+}
+
+#crosshair{
+  position:absolute; top:50%; left:50%; width:8px; height:8px;
+  transform:translate(-50%,-50%);
+  border:2px solid rgba(255,215,0,0.7); border-radius:50%;
+}
+
+#controls-hint{
+  position:absolute; bottom:15px; left:50%; transform:translateX(-50%);
+  background:rgba(0,0,0,0.6); color:#fff; padding:8px 16px; border-radius:4px;
+  font-size:0.9rem; border:1px solid rgba(212,175,55,0.3);
+}
+</style>
+</head>
+<body>
+
+<div id="game-root">
+  <!-- TITLE SCREEN -->
+  <div id="title-screen">
+    <div id="menu-bg"></div>
+    <div id="menu-content">
+      <h1>THE BACKROOMS</h1>
+      <p>Level 0. Infinite yellow maze. Find a way out, or wander forever.</p>
+      <button class="menu-btn" id="start-btn">ENTER</button>
+    </div>
+  </div>
+
+  <!-- HUD -->
+  <div id="hud">
+    <div id="crosshair"></div>
+    <div id="controls-hint">Swipe to look • Use joystick to move</div>
+  </div>
+
+  <!-- THREE.JS CANVAS -->
+  <canvas id="game-canvas"></canvas>
+</div>
+
+<!-- INCLUDE THREE.JS FROM CDN FOR STANDALONE PLAYABILITY -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// Simple initialization to verify standalone readiness
+window.addEventListener('DOMContentLoaded', () => {
+  const startBtn = document.getElementById('start-btn');
+  const titleScreen = document.getElementById('title-screen');
+  const hud = document.getElementById('hud');
+
+  startBtn.addEventListener('click', () => {
+    titleScreen.style.display = 'none';
+    hud.style.display = 'block';
+    initGame();
+  });
+});
+
+function initGame() {
+  const canvas = document.getElementById('game-canvas');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a180c);
+  scene.fog = new THREE.FogExp2(0x1a180c, 0.08);
+
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 1.6, 0);
+
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xffea85, 0.6);
+  scene.add(ambientLight);
+
+  const dirLight = new THREE.DirectionalLight(0xffd700, 0.4);
+  dirLight.position.set(0, 10, 0);
+  scene.add(dirLight);
+
+  // Simple floor and ceiling test room
+  const roomGeo = new THREE.BoxGeometry(20, 4, 20);
+  const roomMat = new THREE.MeshStandardMaterial({ color: 0xc4a44d, roughness: 0.9, side: THREE.BackSide });
+  const room = new THREE.Mesh(roomGeo, roomMat);
+  room.position.y = 2;
+  scene.add(room);
+
+  // Animation Loop
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+}
+</script>
+</body>
+</html>
