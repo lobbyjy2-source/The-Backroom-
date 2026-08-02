@@ -1,57 +1,449 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>THE BACKROOMS</title>
-<style>
-/* =========================================================================
-   GLOBAL RESET
-   ========================================================================= */
-*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
-html,body{
-  margin:0; padding:0; width:100%; height:100%;
-  overflow:hidden; background:#0a0a06;
-  font-family:'Georgia','Times New Roman',serif;
-  touch-action:none; -webkit-user-select:none; user-select:none;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Backrooms - Mobile Edition</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+        }
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #111;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        #game-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: #d4af37;
+        }
+        /* UI Layers */
+        .ui-screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.85);
+            color: #d4af37;
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+        }
+        .ui-screen h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 0 10px #d4af37;
+            letter-spacing: 2px;
+        }
+        .ui-screen p {
+            font-size: 1.1rem;
+            max-width: 500px;
+            color: #ccc;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .btn {
+            background: transparent;
+            color: #d4af37;
+            border: 2px solid #d4af37;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
+            border-radius: 4px;
+        }
+        .btn:active {
+            background: #d4af37;
+            color: #111;
+            box-shadow: 0 0 20px #d4af37;
+        }
+        /* HUD Elements */
+        #hud {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            display: none;
+        }
+        .hud-element {
+            position: absolute;
+            color: #fff;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        #fps {
+            top: 15px;
+            left: 15px;
+            font-size: 0.9rem;
+            color: #0f0;
+        }
+        #stamina-container {
+            bottom: 25px;
+            left: 20px;
+            width: 150px;
+            height: 12px;
+            border: 2px solid rgba(255,255,255,0.5);
+            background: rgba(0,0,0,0.5);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        #stamina-bar {
+            width: 100%;
+            height: 100%;
+            background: #d4af37;
+            transition: width 0.1s linear;
+        }
+        /* Mobile Controls */
+        #controls-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 6;
+            display: none;
+        }
+        .touch-zone {
+            position: absolute;
+            pointer-events: auto;
+        }
+        #joystick-zone {
+            bottom: 20px;
+            left: 20px;
+            width: 140px;
+            height: 140px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #joystick-knob {
+            width: 50px;
+            height: 50px;
+            background: rgba(212, 175, 55, 0.5);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            position: absolute;
+        }
+        #action-buttons {
+            position: absolute;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            pointer-events: auto;
+        }
+        .action-btn {
+            width: 65px;
+            height: 65px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid #d4af37;
+            border-radius: 50%;
+            color: #d4af37;
+            font-size: 0.9rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        .action-btn:active {
+            background: rgba(212, 175, 55, 0.3);
+        }
+        #look-zone {
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 70%;
+            pointer-events: auto;
+        }
+    </style>
+</head>
+<body>
 
-/* =========================================================================
-   ROTATE-DEVICE OVERLAY (force landscape play)
-   ========================================================================= */
-/* Auto-landscape: fill entire screen when phone is portrait */
-@media (orientation:portrait){
-  html, body {
-    width:100%; height:100%; overflow:hidden;
-  }
-  #game-root{
-    position:fixed !important;
-    width:100vh !important;
-    height:100vw !important;
-    top:0 !important;
-    left:100vw !important;
-    right:auto !important;
-    bottom:auto !important;
-    transform:rotate(90deg) !important;
-    transform-origin:top left !important;
-    inset:auto !important;
-  }
-}
+    <div id="game-container">
+        <!-- Main Menu Screen -->
+        <div id="menu-screen" class="ui-screen">
+            <h1>THE BACKROOMS</h1>
+            <p>لقد سقطت خارج حدود الواقع. تجنب الكيانات، حافظ على طاقتك، وابحث عن مخرج في المتاهة اللانهائية.</p>
+            <button class="btn" id="start-btn">ابدأ التجربة</button>
+        </div>
 
-/* =========================================================================
-   GAME ROOT WRAPPER
-   ========================================================================= */
-#game-root{ position:fixed; inset:0; }
+        <!-- Game Canvas -->
+        <canvas id="gameCanvas"></canvas>
 
-/* =========================================================================
-   TITLE / MENU SCREEN  (mimics the yellow chevron backrooms wallpaper look)
-   ========================================================================= */
-#title-screen{
-  position:fixed; inset:0; z-index:500;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  background:#0a0a06;
-  overflow:hidden;
-}
-#menu-bg{
-  position:absolute; inset:0;
-  background:url('data:image/png;base64,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
+        <!-- HUD -->
+        <div id="hud">
+            <div id="fps" class="hud-element">FPS: 60</div>
+            <div id="stamina-container">
+                <div id="stamina-bar"></div>
+            </div>
+        </div>
+
+        <!-- Mobile Controls -->
+        <div id="controls-layer">
+            <div id="joystick-zone">
+                <div id="joystick-knob"></div>
+            </div>
+            <div id="action-buttons">
+                <div class="action-btn" id="btn-run">جري</div>
+            </div>
+            <div id="look-zone"></div>
+        </div>
+
+        <!-- Game Over Screen -->
+        <div id="gameover-screen" class="ui-screen" style="display: none;">
+            <h1>لقد تم الامساك بك</h1>
+            <p>انتهت رحلتك داخل الغرف الخلفية. هل تتمكن من المحاولة مرة أخرى؟</p>
+            <button class="btn" id="restart-btn">إعادة المحاولة</button>
+        </div>
+    </div>
+
+    <!-- Game Script Simulation Engine -->
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // UI Elements
+        const menuScreen = document.getElementById('menu-screen');
+        const gameOverScreen = document.getElementById('gameover-screen');
+        const hud = document.getElementById('hud');
+        const controlsLayer = document.getElementById('controls-layer');
+        const startBtn = document.getElementById('start-btn');
+        const restartBtn = document.getElementById('restart-btn');
+        const staminaBar = document.getElementById('stamina-bar');
+        const fpsElement = document.getElementById('fps');
+
+        // Game State
+        let gameState = 'MENU'; // MENU, PLAYING, GAMEOVER
+        let lastTime = performance.now();
+        let frameCount = 0;
+        let fpsTimer = 0;
+
+        // Player Attributes
+        const player = {
+            x: 150,
+            y: 150,
+            angle: 0,
+            speed: 2,
+            maxSpeed: 3.5,
+            stamina: 100,
+            isRun: false
+        };
+
+        // Map Configuration (Simple 2D grid representation for simulation)
+        const mapGrid = [
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,0,0,1,0,0,0,0,0,1,0,0,0,1],
+            [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1],
+            [1,0,1,0,0,0,0,0,1,0,0,0,1,0,1],
+            [1,1,1,1,1,0,1,0,1,1,1,1,1,0,1],
+            [1,0,0,0,1,0,1,0,0,0,0,0,1,0,1],
+            [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1],
+            [1,0,1,0,0,0,0,0,1,0,1,0,0,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]
+        ];
+        const tileSize = 60;
+
+        // Resize Canvas dynamically
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Input Tracking variables
+        let joystickActive = false;
+        let joystickVector = { x: 0, y: 0 };
+        let touchStartPos = { x: 0, y: 0 };
+
+        // Joystick Setup
+        const joystickZone = document.getElementById('joystick-zone');
+        const joystickKnob = document.getElementById('joystick-knob');
+        const maxDist = 45;
+
+        joystickZone.addEventListener('touchstart', (e) => {
+            joystickActive = true;
+            const rect = joystickZone.getBoundingClientRect();
+            touchStartPos.x = rect.left + rect.width / 2;
+            touchStartPos.y = rect.top + rect.height / 2;
+            handleJoystickMove(e.touches[0]);
+        });
+
+        window.addEventListener('touchmove', (e) => {
+            if (!joystickActive) return;
+            for (let i = 0; i < e.touches.length; i++) {
+                const touch = e.touches[i];
+                // Check if touch is on left side
+                if (touch.clientX < window.innerWidth / 2) {
+                    handleJoystickMove(touch);
+                }
+            }
+        });
+
+        window.addEventListener('touchend', (e) => {
+            // Reset joystick if touch ends
+            joystickActive = false;
+            joystickKnob.style.transform = `translate(0px, 0px)`;
+            joystickVector = { x: 0, y: 0 };
+        });
+
+        function handleJoystickMove(touch) {
+            let dx = touch.clientX - touchStartPos.x;
+            let dy = touch.clientY - touchStartPos.y;
+            let dist = Math.sqrt(dx * dx + dy * dy);
+            
+            if (dist > maxDist) {
+                dx = (dx / dist) * maxDist;
+                dy = (dy / dist) * maxDist;
+            }
+            
+            joystickKnob.style.transform = `translate(${dx}px, ${dy}px)`;
+            joystickVector = { x: dx / maxDist, y: dy / maxDist };
+        }
+
+        // Look Around Touch Zone
+        const lookZone = document.getElementById('look-zone');
+        let lastTouchX = 0;
+        lookZone.addEventListener('touchstart', (e) => {
+            lastTouchX = e.touches[0].clientX;
+        });
+        lookZone.addEventListener('touchmove', (e) => {
+            let currentX = e.touches[0].clientX;
+            let deltaX = currentX - lastTouchX;
+            player.angle += deltaX * 0.005;
+            lastTouchX = currentX;
+        });
+
+        // Run button
+        const btnRun = document.getElementById('btn-run');
+        btnRun.addEventListener('touchstart', () => { player.isRun = true; });
+        btnRun.addEventListener('touchend', () => { player.isRun = false; });
+
+        // Start Game
+        startBtn.addEventListener('click', () => {
+            menuScreen.style.display = 'none';
+            hud.style.display = 'block';
+            controlsLayer.style.display = 'block';
+            gameState = 'PLAYING';
+        });
+
+        restartBtn.addEventListener('click', () => {
+            gameOverScreen.style.display = 'none';
+            player.x = 150;
+            player.y = 150;
+            player.stamina = 100;
+            gameState = 'PLAYING';
+        });
+
+        // Game Loop update & render simulation
+        function update(dt) {
+            if (gameState !== 'PLAYING') return;
+
+            // Handle Movement from Joystick
+            let currentSpeed = player.speed;
+            if (player.isRun && player.stamina > 0 && (joystickVector.x !== 0 || joystickVector.y !== 0)) {
+                currentSpeed = player.maxSpeed;
+                player.stamina = Math.max(0, player.stamina - 0.4);
+            } else {
+                player.stamina = Math.min(100, player.stamina + 0.2);
+            }
+            staminaBar.style.width = player.stamina + '%';
+
+            if (joystickVector.x !== 0 || joystickVector.y !== 0) {
+                // Calculate movement vector relative to player angle
+                let moveX = (-joystickVector.y * Math.cos(player.angle) - joystickVector.x * Math.sin(player.angle)) * currentSpeed;
+                let moveY = (-joystickVector.y * Math.sin(player.angle) + joystickVector.x * Math.cos(player.angle)) * currentSpeed;
+
+                player.x += moveX;
+                player.y += moveY;
+            }
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (gameState === 'PLAYING') {
+                // Simple pseudo 3D / Top-Down View rendering for Backrooms atmospheric ambiance
+                ctx.fillStyle = '#c5a028'; // Monotonous Yellow Wall tone
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw grid lines to simulate endless rooms pattern
+                ctx.strokeStyle = '#b08d20';
+                ctx.lineWidth = 2;
+                for (let x = 0; x < canvas.width; x += 80) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, 0);
+                    ctx.lineTo(x, canvas.height);
+                    ctx.stroke();
+                }
+
+                // Draw a simple mini map or indicator of player position
+                ctx.save();
+                ctx.translate(canvas.width - 120, 120);
+                ctx.fillStyle = 'rgba(0,0,0,0.5)';
+                ctx.fillRect(-10, -10, 100, 100);
+                
+                // Draw Player on Map Indicator
+                ctx.fillStyle = '#00ff00';
+                ctx.beginPath();
+                ctx.arc(player.x / 15, player.y / 15, 4, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function gameLoop(timestamp) {
+            let dt = timestamp - lastTime;
+            lastTime = timestamp;
+
+            // FPS Counter calculation
+            frameCount++;
+            fpsTimer += dt;
+            if (fpsTimer >= 1000) {
+                fpsElement.innerText = `FPS: ${Math.round((frameCount * 1000) / fpsTimer)}`;
+                frameCount = 0;
+                fpsTimer = 0;
+            }
+
+            update(dt);
+            render();
+
+            requestAnimationFrame(gameLoop);
+        }
+
+        requestAnimationFrame(gameLoop);
+    </script>
+</body>
+</html>
