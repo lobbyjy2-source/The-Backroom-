@@ -8,10 +8,7 @@
 /* =========================================================================
    GLOBAL RESET
    ========================================================================= */
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
 html,body{
   margin:0; padding:0; width:100%; height:100%;
   overflow:hidden; background:#0a0a06;
@@ -26,15 +23,24 @@ html,body{
   html, body {
     width:100%; height:100%; overflow:hidden;
   }
+  #game-root{
+    position:fixed !important;
+    width:100vh !important;
+    height:100vw !important;
+    top:0 !important;
+    left:100vw !important;
+    right:auto !important;
+    bottom:auto !important;
+    transform:rotate(90deg) !important;
+    transform-origin:top left !important;
+    inset:auto !important;
+  }
 }
 
 /* =========================================================================
    GAME ROOT WRAPPER
    ========================================================================= */
-#game-root{
-  position:fixed;
-  inset:0;
-}
+#game-root{ position:fixed; inset:0; }
 
 /* =========================================================================
    TITLE / MENU SCREEN
@@ -45,71 +51,109 @@ html,body{
   background:#0a0a06;
   overflow:hidden;
 }
-
 #menu-bg{
   position:absolute; inset:0;
-  background:url('data:image/png;base64,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') no-repeat center center;
-  background-size:cover;
-  opacity:0.35;
+  background:radial-gradient(circle at center, #2a2512 0%, #0a0a06 100%);
+  opacity:0.8;
 }
-
-#menu-content{
-  position:relative; z-index:2;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center; padding:20px;
+.menu-content{
+  position:relative; z-index:2; display:flex; flex-direction:column;
+  align-items:center; text-align:center; padding:20px; max-width:600px;
 }
-
-#menu-content h1{
-  font-size:2.8rem; color:#ffd700; margin:0 0 10px 0;
-  text-shadow:0 0 20px rgba(255,215,0,0.6);
-  letter-spacing:3px;
+h1{
+  font-size:clamp(2rem, 5vw, 4rem); color:#d4af37; margin:0 0 10px 0;
+  letter-spacing:4px; text-shadow:0 0 20px rgba(212,175,55,0.4);
 }
-
-#menu-content p{
-  font-size:1.1rem; color:#c8b88a; margin:0 0 30px 0;
-  max-width:400px; line-height:1.5;
+.subtitle{
+  font-size:clamp(0.9rem, 2vw, 1.2rem); color:#8c7835; margin-bottom:30px;
+  letter-spacing:2px; text-transform:uppercase;
 }
-
 .menu-btn{
-  background:#d4af37; color:#0a0a06; border:none; padding:15px 40px;
-  font-size:1.2rem; font-weight:bold; font-family:inherit;
-  cursor:pointer; text-transform:uppercase; letter-spacing:2px;
-  box-shadow:0 0 15px rgba(212,175,55,0.4);
-  transition:all 0.2s ease;
+  background:transparent; border:2px solid #d4af37; color:#d4af37;
+  padding:12px 30px; font-size:1.1rem; font-family:inherit;
+  letter-spacing:2px; cursor:pointer; transition:all 0.3s ease;
+  box-shadow:0 0 10px rgba(212,175,55,0.1); outline:none;
 }
-.menu-btn:active{
-  transform:scale(0.95);
-  background:#f4d03f;
+.menu-btn:hover, .menu-btn:active{
+  background:#d4af37; color:#0a0a06;
+  box-shadow:0 0 20px rgba(212,175,55,0.6);
 }
 
 /* =========================================================================
-   CANVAS & HUD
+   HUD / IN-GAME INTERFACE
    ========================================================================= */
-#game-canvas{
-  display:block; width:100%; height:100%;
-}
-
 #hud{
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  pointer-events:none; z-index:100;
+  position:fixed; inset:0; z-index:100; pointer-events:none;
   display:none;
 }
-
-.hud-item{
-  position:absolute; color:#ffd700; font-weight:bold; text-shadow:0 2px 4px rgba(0,0,0,0.8);
+.crosshair{
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:6px; height:6px; background:rgba(255,255,255,0.6); border-radius:50%;
+  box-shadow:0 0 4px rgba(0,0,0,0.8);
+}
+#flashlight-indicator{
+  position:absolute; bottom:20px; left:20px;
+  color:#d4af37; font-size:0.9rem; letter-spacing:1px;
+  text-shadow:0 0 5px rgba(0,0,0,0.9);
+}
+#sanity-meter{
+  position:absolute; top:20px; right:20px;
+  width:150px; height:10px; background:rgba(0,0,0,0.5);
+  border:1px solid rgba(212,175,55,0.4); border-radius:5px; overflow:hidden;
+}
+#sanity-fill{
+  width:100%; height:100%; background:#d4af37; transition:width 0.2s linear;
 }
 
-#crosshair{
-  position:absolute; top:50%; left:50%; width:8px; height:8px;
-  transform:translate(-50%,-50%);
-  border:2px solid rgba(255,215,0,0.7); border-radius:50%;
+/* =========================================================================
+   MOBILE TOUCH CONTROLS (VIRTUAL JOYSTICK & LOOK)
+   ========================================================================= */
+#joystick-zone{
+  position:absolute; bottom:20px; left:20px; width:130px; height:130px;
+  background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1);
+  border-radius:50%; z-index:200; touch-action:none;
+}
+#joystick-handle{
+  position:absolute; top:40px; left:40px; width:50px; height:50px;
+  background:rgba(212,175,55,0.4); border:1px solid rgba(212,175,55,0.8);
+  border-radius:50%; pointer-events:none; transition:transform 0.05s linear;
+}
+#look-zone{
+  position:absolute; top:0; right:0; width:50%; height:100%;
+  z-index:199; touch-action:none;
+}
+.touch-btn{
+  position:absolute; bottom:30px; right:30px; z-index:200;
+  background:rgba(20,20,15,0.7); border:2px solid #d4af37; color:#d4af37;
+  width:60px; height:60px; border-radius:50%; display:flex;
+  align-items:center; justify-content:center; font-size:0.8rem;
+  letter-spacing:1px; cursor:pointer; box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+.touch-btn:active{ background:#d4af37; color:#0a0a06; }
+
+/* =========================================================================
+   JUMPSCARE OVERLAY
+   ========================================================================= */
+#jumpscare{
+  position:fixed; inset:0; z-index:1000; background:#000;
+  display:none; align-items:center; justify-content:center;
+  overflow:hidden;
+}
+#jumpscare img{
+  width:100%; height:100%; object-fit:cover; filter:contrast(150%) brightness(80%) hue-rotate(-20deg);
+  animation:shake 0.1s infinite;
+}
+@keyframes shake{
+  0% { transform: translate(5px, 5px) rotate(0deg); }
+  20% { transform: translate(-5px, -8px) rotate(-1deg); }
+  40% { transform: translate(-8px, 5px) rotate(1deg); }
+  60% { transform: translate(5px, 8px) rotate(0deg); }
+  80% { transform: translate(1px, -3px) rotate(1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
 }
 
-#controls-hint{
-  position:absolute; bottom:15px; left:50%; transform:translateX(-50%);
-  background:rgba(0,0,0,0.6); color:#fff; padding:8px 16px; border-radius:4px;
-  font-size:0.9rem; border:1px solid rgba(212,175,55,0.3);
-}
+/* Canvas container */
+#canvas-container{ position:absolute; inset:0; z-index:1; }
 </style>
 </head>
 <body>
@@ -118,80 +162,348 @@ html,body{
   <!-- TITLE SCREEN -->
   <div id="title-screen">
     <div id="menu-bg"></div>
-    <div id="menu-content">
+    <div class="menu-content">
       <h1>THE BACKROOMS</h1>
-      <p>Level 0. Infinite yellow maze. Find a way out, or wander forever.</p>
+      <div class="subtitle">Level 0: The Monotonous Labyrinth</div>
       <button class="menu-btn" id="start-btn">ENTER</button>
     </div>
   </div>
 
-  <!-- HUD -->
+  <!-- IN-GAME HUD -->
   <div id="hud">
-    <div id="crosshair"></div>
-    <div id="controls-hint">Swipe to look • Use joystick to move</div>
+    <div class="crosshair"></div>
+    <div id="flashlight-indicator">FLASHLIGHT: ON</div>
+    <div id="sanity-meter"><div id="sanity-fill"></div></div>
+    
+    <!-- Virtual Controls -->
+    <div id="joystick-zone">
+      <div id="joystick-handle"></div>
+    </div>
+    <div id="look-zone"></div>
+    <div class="touch-btn" id="flashlight-btn">LIGHT</div>
   </div>
 
-  <!-- THREE.JS CANVAS -->
-  <canvas id="game-canvas"></canvas>
+  <!-- JUMPSCARE LAYER -->
+  <div id="jumpscare">
+    <!-- Inline emergency creepy distorted asset placeholder via CSS/Canvas if needed, or dynamic drawing -->
+  </div>
+
+  <!-- THREE.JS CONTAINER -->
+  <div id="canvas-container"></div>
 </div>
 
-<!-- INCLUDE THREE.JS FROM CDN FOR STANDALONE PLAYABILITY -->
+<!-- INCLUDE THREE.JS LIBRARIES VIA CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-// Simple initialization to verify standalone readiness
-window.addEventListener('DOMContentLoaded', () => {
+/* =========================================================================
+   BACKROOMS GAME ENGINE IMPLEMENTATION
+   ========================================================================= */
+
+(function() {
+  // State variables
+  let scene, camera, renderer;
+  let isPlaying = false;
+  let moveForward = false, moveBackward = false, moveLeft = false, moveRight = false;
+  let controlsActive = false;
+  
+  // Mobile Touch tracking variables
+  let joystickTouchId = null;
+  let joystickOrigin = { x: 0, y: 0 };
+  let joystickVector = { x: 0, y: 0 };
+  
+  let lookTouchId = null;
+  let lookLastPos = { x: 0, y: 0 };
+  let cameraRotation = { yaw: 0, pitch: 0 };
+
+  // Gameplay metrics
+  let sanity = 100;
+  let flashlightOn = true;
+  let flashlight;
+  
+  // Maze configuration
+  const MAP_SIZE = 15; // Grid size
+  const WALL_SIZE = 4;
+  let mazeGrid = [];
+
   const startBtn = document.getElementById('start-btn');
   const titleScreen = document.getElementById('title-screen');
   const hud = document.getElementById('hud');
+  const canvasContainer = document.getElementById('canvas-container');
+  const joystickZone = document.getElementById('joystick-zone');
+  const joystickHandle = document.getElementById('joystick-handle');
+  const lookZone = document.getElementById('look-zone');
+  const flashlightBtn = document.getElementById('flashlight-btn');
 
-  startBtn.addEventListener('click', () => {
+  startBtn.addEventListener('click', startGame);
+  
+  function startGame() {
     titleScreen.style.display = 'none';
     hud.style.display = 'block';
-    initGame();
-  });
-});
-
-function initGame() {
-  const canvas = document.getElementById('game-canvas');
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x1a180c);
-  scene.fog = new THREE.FogExp2(0x1a180c, 0.08);
-
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 1.6, 0);
-
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffea85, 0.6);
-  scene.add(ambientLight);
-
-  const dirLight = new THREE.DirectionalLight(0xffd700, 0.4);
-  dirLight.position.set(0, 10, 0);
-  scene.add(dirLight);
-
-  // Simple floor and ceiling test room
-  const roomGeo = new THREE.BoxGeometry(20, 4, 20);
-  const roomMat = new THREE.MeshStandardMaterial({ color: 0xc4a44d, roughness: 0.9, side: THREE.BackSide });
-  const room = new THREE.Mesh(roomGeo, roomMat);
-  room.position.y = 2;
-  scene.add(room);
-
-  // Animation Loop
-  function animate() {
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+    isPlaying = true;
+    
+    initEngine();
+    initListeners();
+    animate();
   }
-  animate();
 
-  window.addEventListener('resize', () => {
+  function initEngine() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x0a0a06);
+    scene.fog = new THREE.FogExp2(0x1a1608, 0.08);
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(2, 1.6, 2);
+
+    renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: "high-performance" });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.shadowMap.enabled = false;
+    canvasContainer.appendChild(renderer.domElement);
+
+    // Ambient light (dull yellow glow standard to Level 0)
+    const ambientLight = new THREE.AmbientLight(0xd9b36c, 0.25);
+    scene.add(ambientLight);
+
+    // Flashlight attached to camera
+    flashlight = new THREE.SpotLight(0xfffaed, 1.8, 25, Math.PI / 5, 0.5, 1);
+    flashlight.position.set(0, 0, 0);
+    camera.add(flashlight);
+    flashlight.target.position.set(0, 0, -1);
+    camera.add(flashlight.target);
+    scene.add(camera);
+
+    generateProceduralMaze();
+  }
+
+  /* Procedural Backrooms Wall Generation (Monotonous wallpaper & damp carpet aesthetic) */
+  function generateProceduralMaze() {
+    // Generate simple deterministic structural textures procedurally using Canvas
+    const wallTexture = createWallpaperTexture();
+    const floorTexture = createCarpetTexture();
+    const ceilingTexture = createCeilingTexture();
+
+    const wallMat = new THREE.MeshBasicMaterial({ map: wallTexture });
+    const floorMat = new THREE.MeshBasicMaterial({ map: floorTexture });
+    const ceilingMat = new THREE.MeshBasicMaterial({ map: ceilingTexture });
+
+    // Build simple bounded grid maze
+    const wallGeo = new THREE.BoxGeometry(WALL_SIZE, WALL_SIZE, WALL_SIZE);
+    
+    // Simple layout boundaries & pillars to optimize mobile performance
+    for(let x = -MAP_SIZE; x <= MAP_SIZE; x += 2) {
+      for(let z = -MAP_SIZE; z <= MAP_SIZE; z += 2) {
+        // Create outer perimeter walls
+        if(Math.abs(x) === MAP_SIZE || Math.abs(z) === MAP_SIZE || (x % 4 === 0 && z % 4 === 0 && Math.random() > 0.4)) {
+          // Avoid blocking exact start point
+          if(Math.abs(x) > 2 || Math.abs(z) > 2) {
+            const wallMesh = new THREE.Mesh(wallGeo, wallMat);
+            wallMesh.position.set(x * (WALL_SIZE/2), WALL_SIZE/2, z * (WALL_SIZE/2));
+            scene.add(wallMesh);
+          }
+        }
+      }
+    }
+
+    // Floor
+    const floorGeo = new THREE.PlaneGeometry(MAP_SIZE * WALL_SIZE, MAP_SIZE * WALL_SIZE);
+    const floor = new THREE.Mesh(floorGeo, floorMat);
+    floor.rotation.x = -Math.PI / 2;
+    floor.position.set(0, 0, 0);
+    scene.add(floor);
+
+    // Ceiling
+    const ceiling = new THREE.Mesh(floorGeo, ceilingMat);
+    ceiling.rotation.x = Math.PI / 2;
+    ceiling.position.set(0, WALL_SIZE, 0);
+    scene.add(ceiling);
+  }
+
+  /* Procedural Textures to avoid external asset loading failures */
+  function createWallpaperTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 256; canvas.height = 256;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#b8973b'; // Backrooms yellowish mustard base
+    ctx.fillRect(0,0,256,256);
+    // Add subtle vertical stripe patterns / stains
+    ctx.fillStyle = '#96782b';
+    for(let i=0; i<256; i+=32) {
+      ctx.fillRect(i, 0, 8, 256);
+    }
+    // Add noise/grime
+    ctx.fillStyle = 'rgba(0,0,0,0.08)';
+    for(let i=0; i<1000; i++) {
+      ctx.fillRect(Math.random()*256, Math.random()*256, 3, 3);
+    }
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  function createCarpetTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128; canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#5c4e28'; // Damp moist dirty carpet tone
+    ctx.fillRect(0,0,128,128);
+    ctx.fillStyle = '#42371b';
+    for(let i=0; i<800; i++) {
+      ctx.fillRect(Math.random()*128, Math.random()*128, 2, 2);
+    }
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  function createCeilingTexture() {
+    const canvas = document.createElement('canvas');
+    canvas.width = 128; canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = '#cccccc'; // Acoustic ceiling tile white/grey
+    ctx.fillRect(0,0,128,128);
+    ctx.strokeStyle = '#999999';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(0,0,128,128);
+    return new THREE.CanvasTexture(canvas);
+  }
+
+  /* =========================================================================
+     TOUCH CONTROLS & EVENT LISTENERS
+     ========================================================================= */
+  function initListeners() {
+    window.addEventListener('resize', onWindowResize);
+
+    // Joystick Touch Controls
+    joystickZone.addEventListener('touchstart', (e) => {
+      let touch = e.changedTouches[0];
+      joystickTouchId = touch.identifier;
+      const rect = joystickZone.getBoundingClientRect();
+      joystickOrigin = { x: rect.left + rect.width/2, y: rect.top + rect.height/2 };
+      handleJoystickMove(touch);
+    }, {passive: false});
+
+    window.addEventListener('touchmove', (e) => {
+      for(let i=0; i<e.changedTouches.length; i++) {
+        let touch = e.changedTouches[i];
+        if(touch.identifier === joystickTouchId) {
+          handleJoystickMove(touch);
+        } else if(touch.identifier === lookTouchId) {
+          handleLookMove(touch);
+        }
+      }
+    }, {passive: false});
+
+    window.addEventListener('touchend', (e) => {
+      for(let i=0; i<e.changedTouches.length; i++) {
+        let touch = e.changedTouches[i];
+        if(touch.identifier === joystickTouchId) {
+          joystickTouchId = null;
+          joystickVector = { x: 0, y: 0 };
+          joystickHandle.style.transform = `translate(0px, 0px)`;
+          moveForward = moveBackward = moveLeft = moveRight = false;
+        }
+        if(touch.identifier === lookTouchId) {
+          lookTouchId = null;
+        }
+      }
+    });
+
+    // Look Zone Touch Control (Camera look)
+    lookZone.addEventListener('touchstart', (e) => {
+      let touch = e.changedTouches[0];
+      if(lookTouchId === null) {
+        lookTouchId = touch.identifier;
+        lookLastPos = { x: touch.clientX, y: touch.clientY };
+      }
+    }, {passive: false});
+
+    // Flashlight Toggle
+    flashlightBtn.addEventListener('click', () => {
+      flashlightOn = !flashlightOn;
+      flashlight.visible = flashlightOn;
+      document.getElementById('flashlight-indicator').innerText = `FLASHLIGHT: ${flashlightOn ? 'ON' : 'OFF'}`;
+    });
+  }
+
+  function handleJoystickMove(touch) {
+    const maxDist = 45;
+    let dx = touch.clientX - joystickOrigin.x;
+    let dy = touch.clientY - joystickOrigin.y;
+    let dist = Math.sqrt(dx*dx + dy*dy);
+
+    if(dist > maxDist) {
+      dx = (dx / dist) * maxDist;
+      dy = (dy / dist) * maxDist;
+    }
+
+    joystickHandle.style.transform = `translate(${dx}px, ${dy}px)`;
+    
+    joystickVector.x = dx / maxDist;
+    joystickVector.y = dy / maxDist;
+
+    moveForward = joystickVector.y < -0.2;
+    moveBackward = joystickVector.y > 0.2;
+    moveLeft = joystickVector.x < -0.2;
+    moveRight = joystickVector.x > 0.2;
+  }
+
+  function handleLookMove(touch) {
+    const sensitivity = 0.003;
+    let dx = touch.clientX - lookLastPos.x;
+    let dy = touch.clientY - lookLastPos.y;
+
+    cameraRotation.yaw -= dx * sensitivity;
+    cameraRotation.pitch -= dy * sensitivity;
+
+    // Clamp pitch to avoid neck-breaking rotation
+    cameraRotation.pitch = Math.max(-Math.PI/2.2, Math.min(Math.PI/2.2, cameraRotation.pitch));
+
+    lookLastPos = { x: touch.clientX, y: touch.clientY };
+  }
+
+  function onWindowResize() {
+    if(!isPlaying) return;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-  });
-}
+  }
+
+  /* =========================================================================
+     GAME LOOP & MOVEMENT PHYSICS
+     ========================================================================= */
+  const clock = new THREE.Clock();
+
+  function animate() {
+    if(!isPlaying) return;
+    requestAnimationFrame(animate);
+
+    const delta = clock.getDelta();
+
+    // Apply rotation to camera orientation vector
+    let euler = new THREE.Euler(0, 0, 0, 'YXZ');
+    euler.x = cameraRotation.pitch;
+    euler.y = cameraRotation.yaw;
+    camera.quaternion.setFromEuler(euler);
+
+    // Movement calculation
+    const speed = 3.5 * delta;
+    let dirVector = new THREE.Vector3();
+    
+    if (moveForward) dirVector.z -= 1;
+    if (moveBackward) dirVector.z += 1;
+    if (moveLeft) dirVector.x -= 1;
+    if (moveRight) dirVector.x += 1;
+    
+    dirVector.normalize();
+    dirVector.applyEuler(new THREE.Euler(0, cameraRotation.yaw, 0));
+
+    camera.position.addScaledVector(dirVector, speed);
+
+    // Boundary constraints inside the backrooms grid limits
+    const bound = (MAP_SIZE * WALL_SIZE) / 2 - 1;
+    camera.position.x = Math.max(-bound, Math.min(bound, camera.position.x));
+    camera.position.z = Math.max(-bound, Math.min(bound, camera.position.z));
+
+    renderer.render(scene, camera);
+  }
+
+})();
 </script>
 </body>
 </html>
